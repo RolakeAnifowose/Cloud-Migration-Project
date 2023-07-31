@@ -1,9 +1,17 @@
-# Local .terraform directories. Large files
+# Local .terraform directories. Large, extra large files
 **/.terraform/*
 
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+# Ignore Terraform generated files
+*.tfstate
+*.tfstate.backup
+*.tfplan
+/terraform.tfvars
+/terraform.tfstate.d/
+
 
 # Crash log files
 crash.log

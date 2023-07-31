@@ -1,5 +1,6 @@
 # Local .terraform directories. Large, extra large files
 **/.terraform/*
+/AWS/.terraform/*
 
 # .tfstate files
 *.tfstate

@@ -68,7 +68,7 @@ resource "aws_route_table_association" "public-subnet-association-to-route-table
 #Network ACL to act as a firewall for controlling traffic in and out of a subnet
 resource "aws_network_acl" "cloud-migration-network-acl" {
   vpc_id = aws_vpc.cloud-migration-vpc.id
-  subnet_ids = aws_subnet.cloud-migration-public-subnet.id
+  subnet_ids = [aws_subnet.cloud-migration-public-subnet.id]
 
   # Inbound rules
   ingress {

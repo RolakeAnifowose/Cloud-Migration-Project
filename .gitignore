@@ -1,6 +1,8 @@
 # Local .terraform directories. Large, extra large files
 **/.terraform/*
 AWS/.terraform/providers/registry.terraform.io/hashicorp/aws/5.10.0/darwin_amd64/terraform-provider-aws_v5.10.0_x5
+# Local .terraform directories
+**/.terraform/*
 
 # .tfstate files
 *.tfstate

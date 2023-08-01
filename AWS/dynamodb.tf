@@ -1,3 +1,4 @@
+#Cloud Migration Non-relational database for NoSQL data
 resource "aws_dynamodb_table" "cloud-migration-nosql-database" {
     name = "cloud-migration-nosql-database"
     billing_mode = "PROVISIONED"

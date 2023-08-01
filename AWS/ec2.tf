@@ -1,3 +1,4 @@
+#Cloud Migration Web Servers for hosting web pages
 resource "aws_instance" "cloud-migration-web-servers" {
     count = 3
     ami = var.ami

@@ -7,8 +7,8 @@ resource "aws_db_instance" "cloud-migration-relational-database" {
     username             = "cloudmigrationuser"
     password             = "cloudmigrationpassword"
     parameter_group_name = "default.mysql5.7"
-    # subnet_id = aws_subnet.cloud-migration-private-subnet.id
-    vpc_security_group_ids = [aws_security_group.rds-security-group.id]
+    #subnet_id = aws_subnet.cloud-migration-private-subnet.id
+    #vpc_security_group_ids = [aws_security_group.cloud-migration-vpc.id]
 
 }
 

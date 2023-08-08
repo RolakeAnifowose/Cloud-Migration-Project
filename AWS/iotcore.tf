@@ -23,6 +23,11 @@ resource "aws_iot_policy" "ibeacon-pubsub" {
   })
 }
 
+data "aws_iot_endpoint" "example" {
+
+}
+
+
 resource "aws_iot_certificate" "iot-core-certificate" {
   active = true
 }

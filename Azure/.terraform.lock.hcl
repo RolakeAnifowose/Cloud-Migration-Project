@@ -5,6 +5,7 @@ provider "registry.terraform.io/hashicorp/azurerm" {
   version     = "1.35.0"
   constraints = "1.35.0"
   hashes = [
+    "h1:kDLUnOzdGu/hjhW+XvX01xtvbm1F2KRmLHfSLPvOfLM=",
     "h1:p3pqWYAXKeV632vtZ0AFgRt/M/imaUwZ6yPrwRJLrLI=",
     "zh:16bd159e326885a8665712c0cce8e09018820acdbb1b98e062b369be4a71c0b3",
     "zh:32a84b2d7a9d12a593882e5d72004019d0519f8d82e76b65049c970f39c5d21a",

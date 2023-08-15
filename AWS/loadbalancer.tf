@@ -4,7 +4,7 @@ resource "aws_lb" "cloud-migration-load-balancer" {
     load_balancer_type = "application"
     security_groups = [aws_security_group.load-balancer-security-group.id]
     #subnets = aws_subnet.cloud-migration-public-subnet.id
-    subnets = aws_subnet.cloud-migration-public-subnet.*.id
+    subnets = ["${aws_subnet.cloud-migration-public-subnet.id}", "${aws_subnet.cloud-migration-private-subnet.id}"]
     enable_cross_zone_load_balancing = "true" #This enables load balancing across availability zones
     enable_deletion_protection = true
 }

@@ -1,8 +1,8 @@
-resource "aws_launch_template" "autoscaling-launch-template" {
+resource "aws_launch_template" "ec2-autoscaling-launch-template" {
     name = "ec2-autoscaling-launch-template"
     image_id = var.ami
     instance_type = var.instance_type
-    security_groups = [aws_security_group.ec2-security-group.id]
+    //security_groups = [aws_security_group.ec2-security-group.id]
     lifecycle {
         create_before_destroy = true
     }
@@ -10,6 +10,7 @@ resource "aws_launch_template" "autoscaling-launch-template" {
 
 resource "aws_autoscaling_group" "ec2-autoscaling-group" {
     name = "ec2-autoscaling-group"
+    //availability_zones = ["us-east-1a", "us-east-1b"]
     min_size = 2
     max_size = 3
     desired_capacity = 3
@@ -20,7 +21,10 @@ resource "aws_autoscaling_group" "ec2-autoscaling-group" {
         id = aws_launch_template.ec2-autoscaling-launch-template.id
         version = "$Latest"
     }
-    //vpc_zone_identifier = ["subnet-0123456789abcdef0", "subnet-0123456789abcdef1"]  # Replace with your subnet IDs
+    vpc_zone_identifier = [
+        "${aws_subnet.cloud-migration-public-subnet.id}",
+        "${aws_subnet.cloud-migration-private-subnet.id}"
+    ]
 }
 
 resource "aws_autoscaling_policy" "simple_scaling" {

@@ -35,7 +35,7 @@ resource "aws_subnet" "cloud-migration-public-subnet" {
 resource "aws_subnet" "cloud-migration-private-subnet" {
   cidr_block = "10.0.1.0/24"
   vpc_id = aws_vpc.cloud-migration-vpc.id
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-1b"
   tags = {
    Name = "Cloud-Migration-Private-Subnet"
  }

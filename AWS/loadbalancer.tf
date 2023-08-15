@@ -3,9 +3,9 @@ resource "aws_lb" "cloud-migration-load-balancer" {
     internal = false
     load_balancer_type = "application"
     security_groups = [aws_security_group.load-balancer-security-group.id]
-    subnets = aws_subnet.cloud-migration-public-subnet.id
-    #subnets = [for subnet in aws_subnet.public : subnet.id]
-
+    #subnets = aws_subnet.cloud-migration-public-subnet.id
+    subnets = aws_subnet.cloud-migration-public-subnet.*.id
+    enable_cross_zone_load_balancing = "true" #This enables load balancing across availability zones
     enable_deletion_protection = true
 }
 
@@ -48,14 +48,40 @@ resource "aws_alb_target_group" "load-balancer-target-group" {
     stickiness {
         type = "lb_cookie"
     }
+    health_check {
+        enabled = true
+        timeout = 10
+        interval = 20
+        path = "/"
+        port = 80
+        healthy_threshold = 3
+        unhealthy_threshold = 2
+    }
 }
 
-resource "aws_alb_listener" "load-balancer-listener" {
+resource "aws_lb_target_group_attachment" "attach-ec2-instances" {
+    count = length(aws_instance.cloud-migration-web-servers)
+    target_group_arn = aws_alb_target_group.load-balancer-target-group.arn
+    target_id = aws_instance.cloud-migration-web-servers[count.index].id
+    port = 80
+}
+
+resource "aws_alb_listener" "http-load-balancer-listener" {
     load_balancer_arn = aws_lb.cloud-migration-load-balancer.arn
     port              = "80"
     protocol          = "HTTP"
     default_action {
         target_group_arn = aws_alb_target_group.load-balancer-target-group.arn
-        type             = "forward"
+        type = "forward"
+    }
+}
+
+resource "aws_alb_listener" "https-load-balancer-listener" {
+    load_balancer_arn = aws_lb.cloud-migration-load-balancer.arn
+    port              = "443"
+    protocol          = "HTTPS"
+    default_action {
+        target_group_arn = aws_alb_target_group.load-balancer-target-group.arn
+        type = "forward"
     }
 }

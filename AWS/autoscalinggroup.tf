@@ -22,8 +22,8 @@ resource "aws_autoscaling_group" "ec2-autoscaling-group" {
         version = "$Latest"
     }
     vpc_zone_identifier = [
-        "${aws_subnet.cloud-migration-public-subnet.id}",
-        "${aws_subnet.cloud-migration-private-subnet.id}"
+        "${aws_subnet.cloud-migration-public-subnet-1.id}",
+        "${aws_subnet.cloud-migration-public-subnet-2.id}"
     ]
 }
 

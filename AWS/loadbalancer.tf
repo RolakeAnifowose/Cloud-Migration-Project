@@ -4,9 +4,9 @@ resource "aws_lb" "cloud-migration-load-balancer" {
     load_balancer_type = "application"
     security_groups = [aws_security_group.load-balancer-security-group.id]
     #subnets = aws_subnet.cloud-migration-public-subnet.id
-    subnets = ["${aws_subnet.cloud-migration-public-subnet.id}", "${aws_subnet.cloud-migration-private-subnet.id}"]
+    subnets = ["${aws_subnet.cloud-migration-public-subnet-1.id}", "${aws_subnet.cloud-migration-private-subnet-2.id}"]
     enable_cross_zone_load_balancing = "true" #This enables load balancing across availability zones
-    enable_deletion_protection = true
+    enable_deletion_protection = false
 }
 
 resource "aws_security_group" "load-balancer-security-group" {
@@ -76,12 +76,12 @@ resource "aws_alb_listener" "http-load-balancer-listener" {
     }
 }
 
-resource "aws_alb_listener" "https-load-balancer-listener" {
-    load_balancer_arn = aws_lb.cloud-migration-load-balancer.arn
-    port              = "443"
-    protocol          = "HTTPS"
-    default_action {
-        target_group_arn = aws_alb_target_group.load-balancer-target-group.arn
-        type = "forward"
-    }
-}
+# resource "aws_alb_listener" "https-load-balancer-listener" {
+#     load_balancer_arn = aws_lb.cloud-migration-load-balancer.arn
+#     port              = "443"
+#     protocol          = "HTTPS"
+#     default_action {
+#         target_group_arn = aws_alb_target_group.load-balancer-target-group.arn
+#         type = "forward"
+#     }
+# }

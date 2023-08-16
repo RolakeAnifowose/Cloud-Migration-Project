@@ -50,8 +50,8 @@ resource "aws_alb_target_group" "load-balancer-target-group" {
     }
     health_check {
         enabled = true
-        timeout = 10
-        interval = 20
+        timeout = 20
+        interval = 30
         path = "/"
         port = 80
         healthy_threshold = 3

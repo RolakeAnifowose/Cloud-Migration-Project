@@ -1,13 +1,24 @@
-# resource "azurerm_virtual_machine" "cloud-migration-vms" {
-#     name = "vm1"
-#     vm_size = "Standard_B1Is"
-#     location = var.location
-#     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
+resource "azurerm_virtual_machine" "cloud-migration-vms" {
+    name = "cloud-migration-vms"
+    resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
+    location = azurerm_resource_group.cloud-migration-resource-group.location
+    size = "Standard_B1Is"
+    admin_username = "azureuser"
+    network_interface_ids = [ 
+        azurerm_network_interface.cloud-migration-network-interface.id 
+    ]
 
-#     storage_os_disk {
-#         name = "vm1disk"
-#         caching = "ReadWrite"
-#         create_option = "FromImage"
-#         managed_disk_type = "Standard_LRS"
-#     }
-# }
+    admin_ssh_key {
+        username = "azureuser"
+        public_key = ""
+    }
+
+    os_disk {
+        caching = "ReadWrite"
+        storage_account_type = "Standard_LIRS"
+    }
+
+    source_image_reference {
+        
+    }
+}

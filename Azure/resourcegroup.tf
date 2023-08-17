@@ -1,5 +1,5 @@
 provider "azurerm" {
-    version = "1.35.0"
+    version = "3.0.0"
 }
 
 resource "azurerm_resource_group" "cloud-migration-resource-group" {

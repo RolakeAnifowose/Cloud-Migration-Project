@@ -1,4 +1,4 @@
-resource "azurerm_virtual_machine" "cloud-migration-vms" {
+resource "azurerm_linux_virtual_machine" "cloud-migration-vms" {
     name = "cloud-migration-vms"
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     location = azurerm_resource_group.cloud-migration-resource-group.location
@@ -15,10 +15,13 @@ resource "azurerm_virtual_machine" "cloud-migration-vms" {
 
     os_disk {
         caching = "ReadWrite"
-        storage_account_type = "Standard_LIRS"
+        storage_account_type = "Standard_LRS"
     }
 
     source_image_reference {
-        
+        publisher = "Canonical"
+        offer = "UbuntuServer"
+        sku = "20.04-LTS"
+        version = "latest"
     }
 }

@@ -26,7 +26,7 @@ resource "azurerm_subnet" "private-subnet" {
 
 #Public IP
 resource "azurerm_public_ip" "cloud-migration-public-ip" {
-    name = cloud-migration-public-ip
+    name = "cloud-migration-public-ip"
     location = azurerm_resource_group.cloud-migration-resource-group.location
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     allocation_method = "Dynamic"
@@ -39,7 +39,7 @@ resource "azurerm_public_ip" "cloud-migration-public-ip" {
 
 #Network Interface to enable communication between VMs and the internet, Azure, and on-premises resources
 resource "azurerm_network_interface" "cloud-migration-network-interface" {
-    name = cloud-migration-network-interface
+    name = "cloud-migration-network-interface"
     location = azurerm_resource_group.cloud-migration-resource-group.location
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     ip_configuration {

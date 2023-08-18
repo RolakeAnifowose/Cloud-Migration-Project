@@ -1,5 +1,6 @@
 resource "azurerm_linux_virtual_machine" "cloud-migration-vms" {
-    name = "cloud-migration-vms"
+    count = 3
+    name = "web-server-${count.index}"
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     location = azurerm_resource_group.cloud-migration-resource-group.location
     size = "Standard_B1Is"

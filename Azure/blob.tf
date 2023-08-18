@@ -1,7 +1,7 @@
 resource "azurerm_storage_account" "cloud-migration-storage-account" {
     name = "migrationstorageaccount"
-    resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     location = azurerm_resource_group.cloud-migration-resource-group.location
+    resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     account_tier = "Standard"
     account_replication_type = "LRS" #Locally redundant storage
 }

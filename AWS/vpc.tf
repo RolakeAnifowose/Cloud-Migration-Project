@@ -80,9 +80,15 @@ resource "aws_route" "public-internet-route" {
   gateway_id             = aws_internet_gateway.cloud-migration-internet-gateway.id
 }
 
-#Associate Public Subnet to the User-Created Route Table
+#Associate Public Subnet 1 to the User-Created Route Table
 resource "aws_route_table_association" "public-subnet-association-to-route-table" {
   subnet_id      = aws_subnet.cloud-migration-public-subnet-1.id
+  route_table_id = aws_route_table.cloud-migration-route-table.id
+}
+
+#Associate Public Subnet 2 to the User-Created Route Table
+resource "aws_route_table_association" "public-subnet-association2-to-route-table" {
+  subnet_id      = aws_subnet.cloud-migration-public-subnet-2.id
   route_table_id = aws_route_table.cloud-migration-route-table.id
 }
 

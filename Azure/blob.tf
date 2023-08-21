@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "cloud-migration-storage-account" {
-    name = "migrationstorageaccount"
+    name = "anneystorageaccount"
     location = azurerm_resource_group.cloud-migration-resource-group.location
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     account_tier = "Standard"

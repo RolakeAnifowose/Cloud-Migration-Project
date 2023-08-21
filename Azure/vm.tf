@@ -11,7 +11,7 @@ resource "azurerm_linux_virtual_machine" "cloud-migration-vms" {
 
     admin_ssh_key {
         username = "azureuser"
-        public_key = ""
+        public_key = file("~/.ssh/id_rsa.pub")
     }
 
     os_disk {

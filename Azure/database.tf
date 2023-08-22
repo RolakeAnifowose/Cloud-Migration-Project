@@ -19,12 +19,12 @@ resource "azurerm_cosmosdb_account" "cloud-migration-cosmos-account" {
     }
 
     geo_location {
-        location = "East US"
+        location = "UK South"
         failover_priority = 1
     }
 
     geo_location {
-        location = "UK South"
+        location = "East US"
         failover_priority = 0
     }
 
@@ -49,7 +49,7 @@ resource "azurerm_mysql_server" "cloud-migration-mysql-server" {
   resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
 
   administrator_login = "cloudmigration"
-  administrator_login_password = "@NxyTPP123"
+  administrator_login_password = "@NxyTPP123!!"
 
   sku_name = "GP_Gen5_2"
   storage_mb = 5120

@@ -1,18 +1,15 @@
-resource "azurerm_linux_virtual_machine" "cloud-migration-vms" {
+resource "azurerm_windows_virtual_machine" "example" {
     count = 3
     name = "web-server-${count.index}"
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     location = azurerm_resource_group.cloud-migration-resource-group.location
-    size = "Standard_B1Is"
-    admin_username = "azureuser"
-    network_interface_ids = [ 
-        azurerm_network_interface.cloud-migration-network-interface.id 
+    size = "Standard_B1s"
+    admin_username = "adminuser"
+    admin_password = "@NyxTPP123!"
+    network_interface_ids = [
+        azurerm_network_interface.cloud-migration-network-interface[count.index].id,
     ]
-
-    admin_ssh_key {
-        username = "azureuser"
-        public_key = file("~/.ssh/id_rsa.pub")
-    }
+    availability_set_id = azurerm_availability_set.vm-availability-set.id
 
     os_disk {
         caching = "ReadWrite"
@@ -20,9 +17,9 @@ resource "azurerm_linux_virtual_machine" "cloud-migration-vms" {
     }
 
     source_image_reference {
-        publisher = "Canonical"
-        offer = "UbuntuServer"
-        sku = "20.04-LTS"
+        publisher = "MicrosoftWindowsServer"
+        offer = "WindowsServer"
+        sku = "2016-Datacenter"
         version = "latest"
     }
 }

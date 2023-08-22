@@ -107,6 +107,15 @@ resource "aws_network_acl" "cloud-migration-network-acl" {
     to_port      = 80
   }
 
+  ingress {
+    rule_no  = 101
+    protocol     = "tcp"
+    action       = "allow"
+    cidr_block   = "0.0.0.0/0"
+    from_port    = 443
+    to_port      = 443
+  }
+
   # Outbound rules
   egress {
     rule_no  = 100

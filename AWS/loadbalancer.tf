@@ -4,7 +4,7 @@ resource "aws_lb" "cloud-migration-load-balancer" {
     load_balancer_type = "application"
     security_groups = [aws_security_group.load-balancer-security-group.id]
     #subnets = aws_subnet.cloud-migration-public-subnet.id
-    subnets = ["${aws_subnet.cloud-migration-public-subnet-1.id}", "${aws_subnet.cloud-migration-private-subnet-2.id}"]
+    subnets = ["${aws_subnet.cloud-migration-public-subnet-1.id}", "${aws_subnet.cloud-migration-public-subnet-2.id}"]
     enable_cross_zone_load_balancing = "true" #This enables load balancing across availability zones
     enable_deletion_protection = false
 }
@@ -59,14 +59,14 @@ resource "aws_alb_target_group" "load-balancer-target-group" {
     }
 }
 
-resource "aws_lb_target_group_attachment" "attach-ec2-instances" {
+resource "aws_alb_target_group_attachment" "attach-ec2-instances" {
     count = length(aws_instance.cloud-migration-web-servers)
     target_group_arn = aws_alb_target_group.load-balancer-target-group.arn
     target_id = aws_instance.cloud-migration-web-servers[count.index].id
     port = 80
 }
 
-resource "aws_alb_listener" "http-load-balancer-listener" {
+resource "aws_lb_listener" "http-load-balancer-listener" {
     load_balancer_arn = aws_lb.cloud-migration-load-balancer.arn
     port              = "80"
     protocol          = "HTTP"
@@ -74,6 +74,12 @@ resource "aws_alb_listener" "http-load-balancer-listener" {
         target_group_arn = aws_alb_target_group.load-balancer-target-group.arn
         type = "forward"
     }
+}
+
+resource "aws_route" "route_to_lb" {
+  route_table_id         = aws_route_table.cloud-migration-route-table.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.cloud-migration-internet-gateway.id
 }
 
 # resource "aws_alb_listener" "https-load-balancer-listener" {

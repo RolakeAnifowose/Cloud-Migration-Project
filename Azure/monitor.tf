@@ -11,7 +11,7 @@ resource "azurerm_monitor_action_group" "migration-monitor" {
 resource "azurerm_monitor_metric_alert" "vm_scale_set_alert" {
   name = "vm-scale-set-alert"
   resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
-  scopes = [azurerm_virtual_machine_scale_set.example.id]
+  scopes = [azurerm_windows_virtual_machine_scale_set.vmss.id]
   
   criteria {
     metric_namespace = "Microsoft.Compute/virtualMachineScaleSets"
@@ -22,14 +22,14 @@ resource "azurerm_monitor_metric_alert" "vm_scale_set_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.example.id
+    action_group_id = azurerm_monitor_action_group.migration-monitor.id
   }
 }
 
 resource "azurerm_monitor_metric_alert" "cosmosdb_alert" {
   name = "cosmosdb-alert"
   resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
-  scopes = [azurerm_cosmosdb_account.example.id]
+  scopes = [azurerm_cosmosdb_account.cloud-migration-cosmos-account.id]
   
   criteria {
     metric_namespace = "Microsoft.DocumentDB/databaseAccounts"
@@ -40,24 +40,24 @@ resource "azurerm_monitor_metric_alert" "cosmosdb_alert" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.example.id
+    action_group_id = azurerm_monitor_action_group.migration-monitor.id
   }
 }
 
 resource "azurerm_monitor_metric_alert" "mysql_server_alert" {
   name = "mysql-server-alert"
   resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
-  scopes = [azurerm_mysql_server.example.id]
+  scopes = [azurerm_mysql_server.cloud-migration-mysql-server.id]
   
   criteria {
     metric_namespace = "Microsoft.DBforMySQL/servers"
-    metric_name = "ActiveConnections"
+    metric_name = "Storage used"
     operator = "GreaterThan"
     threshold = 20
     aggregation = "Average"
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.example.id
+    action_group_id = azurerm_monitor_action_group.migration-monitor.id
   }
 }

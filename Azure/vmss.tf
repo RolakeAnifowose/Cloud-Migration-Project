@@ -31,6 +31,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
   }
 }
 
+#Custom autoscaling
 resource "azurerm_monitor_autoscale_setting" "vmss-autoscaling" {
   name = "vmss-autoscaling"
   resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
@@ -57,11 +58,6 @@ resource "azurerm_monitor_autoscale_setting" "vmss-autoscaling" {
         operator = "GreaterThan"
         threshold = 70
         metric_namespace   = "microsoft.compute/virtualmachinescalesets"
-        # dimensions {
-        #   name     = "AppName"
-        #   operator = "Equals"
-        #   values   = ["App1"]
-        # }
       }
 
       scale_action {

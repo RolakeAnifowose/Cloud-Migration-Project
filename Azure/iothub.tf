@@ -21,8 +21,8 @@ resource "azurerm_eventhub_authorization_rule" "authorization_rule" {
     send = true
 }
 
-resource "azurerm_iothub" "migration-ito-hub" {
-    name = "migration-ito-hub"
+resource "azurerm_iothub" "migration-iot-hub" {
+    name = "migration-iot-hub"
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     location = azurerm_resource_group.cloud-migration-resource-group.location
 

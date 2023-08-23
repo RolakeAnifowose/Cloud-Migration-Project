@@ -50,9 +50,21 @@ resource "azurerm_network_interface" "cloud-migration-network-interface" {
     }
 }
 
+resource "azurerm_network_interface" "cloud-migration-private-network-interface" {
+    count = 2
+    name = "cloud-migration-private-network-interface-${count.index}"
+    location = azurerm_resource_group.cloud-migration-resource-group.location
+    resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
+    ip_configuration {
+        name = "interface"
+        subnet_id = azurerm_subnet.private-subnet.id
+        private_ip_address_allocation = "Dynamic"
+    }
+}
+
 #Network Security Group
-resource "azurerm_network_security_group" "cloud-migration-nsg" {
-    name = "cloud-migration-nsg"
+resource "azurerm_network_security_group" "public-nsg" {
+    name = "public-nsg"
     resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
     location = azurerm_resource_group.cloud-migration-resource-group.location
 
@@ -91,4 +103,44 @@ resource "azurerm_network_security_group" "cloud-migration-nsg" {
         source_address_prefix = "*"
         destination_address_prefix = "*"
     }
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsg-association-to-public-subnet" {
+  subnet_id = azurerm_subnet.public-subnet.id
+  network_security_group_id = azurerm_network_security_group.public-nsg.id
+}
+
+resource "azurerm_network_security_group" "private-nsg" {
+    name = "private-nsg"
+    resource_group_name = azurerm_resource_group.cloud-migration-resource-group.name
+    location = azurerm_resource_group.cloud-migration-resource-group.location
+
+    security_rule {
+        name = "AllowInternalTraffic"
+        priority = 100
+        direction = "Inbound"
+        access = "Allow"
+        protocol = "*"
+        source_port_range = "*"
+        destination_port_range = "*"
+        source_address_prefix = "VirtualNetwork"
+        destination_address_prefix = "VirtualNetwork"
+    }
+
+    security_rule {
+        name = "DenyAllInboundFromOutisdeSubnet"
+        priority = 4096
+        direction = "Inbound"
+        access = "Deny"
+        protocol = "*"
+        source_port_range = "*"
+        destination_port_range = "*"
+        source_address_prefix = "*"
+        destination_address_prefix = "10.0.2.0/24"
+    }
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsg-association-to-private-subnet" {
+  subnet_id = azurerm_subnet.private-subnet.id
+  network_security_group_id = azurerm_network_security_group.private-nsg.id
 }
